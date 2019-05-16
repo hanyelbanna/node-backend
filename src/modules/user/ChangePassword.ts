@@ -11,7 +11,7 @@ import { MyContext } from "../../types/MyContext";
 export class ChangePasswordResolver {
   @Mutation(() => User, { nullable: true })
   async changePassword(
-    @Arg("input")
+    @Arg("data")
     { token, password }: ChangePasswordInput,
     @Ctx() ctx: MyContext
   ): Promise<User | null> {

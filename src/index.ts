@@ -1,7 +1,6 @@
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import "reflect-metadata";
-import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 
 import session from "express-session";
@@ -10,16 +9,12 @@ import cors from "cors";
 
 import { redis } from "./redis";
 
+import { createSchema } from "./utils/createSchema";
+
 const main = async () => {
   await createConnection();
 
-  const schema = await buildSchema({
-    // load all ts files in modulres directory
-    resolvers: [__dirname + "/modules/**/*.ts"],
-    authChecker: ({ context: { req } }) => {
-      return !!req.session.userId;
-    }
-  });
+  const schema = await createSchema();
 
   const apolloServer = new ApolloServer({
     schema,
@@ -56,9 +51,11 @@ const main = async () => {
 
   apolloServer.applyMiddleware({ app });
 
-  app.listen(4000, () => {
-    console.log("server started on http://localhost:4000/graphql");
-  });
+  app.listen({ port: 4000 }, () =>
+    console.log(
+      `🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`
+    )
+  );
 };
 
 main();
