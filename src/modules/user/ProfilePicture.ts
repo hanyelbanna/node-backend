@@ -1,4 +1,5 @@
 import { Resolver, Mutation, Arg } from "type-graphql";
+// comes with apollo server
 import { GraphQLUpload } from "graphql-upload";
 import { createWriteStream } from "fs";
 

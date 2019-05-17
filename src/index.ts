@@ -10,6 +10,7 @@ import cors from "cors";
 import { redis } from "./redis";
 
 import { createSchema } from "./utils/createSchema";
+import { createAuthorsLoader } from "./utils/authorsLoader";
 
 const main = async () => {
   await createConnection();
@@ -18,7 +19,11 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema,
-    context: ({ req, res }: any) => ({ req, res })
+    context: ({ req, res }: any) => ({
+      req,
+      res,
+      authorsLoader: createAuthorsLoader()
+    })
   });
 
   const app = express();

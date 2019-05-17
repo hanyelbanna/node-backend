@@ -20,9 +20,7 @@ export class AuthorBook extends BaseEntity {
   @JoinColumn({ name: "authorId" })
   author: Promise<Author>;
 
-  @ManyToOne(() => Book, book => book.authorConnection, {
-    primary: true
-  })
+  @ManyToOne(() => Book, book => book.authorConnection, { primary: true })
   @JoinColumn({ name: "bookId" })
   book: Promise<Book>;
 }
